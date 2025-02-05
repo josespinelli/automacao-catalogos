@@ -4,8 +4,8 @@ from module import *
 from time import sleep
 pa.PAUSE = 0.1
 
-telaVazia = './Catalogos/img/pag1-1.png'
-aguarde = './Catalogos/img/aguarde.png'
+telaVazia = './img/pag1-1.png'
+aguarde = './img/aguarde.png'
 down = 8
 y = 390
 empresa = ''
@@ -31,7 +31,7 @@ caminhoPasta = criar_pasta(empresa)
 
 sleep(3)
 
-for i in range(0,61):
+for i in range(0,62):
     pa.click(800,353) #Lista marcas
     if i < 55:
         for j in range(1,down):
@@ -56,23 +56,23 @@ for i in range(0,61):
         sleep(1)
         pa.click(1085,95)
         pa.press('ENTER')
-        sleep(0.5)
+        sleep(0.7)
         if primeiro == 0: 
-            sleep(0.5)
+            sleep(1)
             pa.click(160,80)
             pa.write(caminhoPasta)
-            sleep(0.5)
+            sleep(1)
             pa.press('ENTER')
-            sleep(0.5)
+            sleep(1)
             primeiro = 1
-            tab(7)
-            sleep(0.5)
+            tab(6)
+            sleep(1)
         pa.write(f'{encontrar_marca(i)} {empresa}')
         pa.press('ENTER')
-        sleep(0.7)
+        sleep(1.2)
         pa.press('right')
         pa.press('ENTER')
-        sleep(1)
+        sleep(1.2)
         pa.hotkey('alt','f4')
     sleep(1)
 

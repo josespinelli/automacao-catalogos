@@ -83,6 +83,7 @@ def encontrar_marca(id_marca):
         "copos", 
         "descartaveis", 
         "umbro", 
+        "under armour",
         "velluti", 
         "vellutinho", 
         "via marte", 
