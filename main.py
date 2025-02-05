@@ -33,13 +33,13 @@ sleep(3)
 
 for i in range(0,62):
     pa.click(800,353) #Lista marcas
-    if i < 55:
+    if i < 56:
         for j in range(1,down):
             pa.press('down') #Tecla pra baixo até a proxima marca
         pa.click(788,375) #Marca na posição 1 da lista suspensa
         down += 1 #Soma 1 para a quantidade de cliques até a proxima marca
     else:
-        for j in range(1,62):
+        for j in range(1,63):
             pa.press('down') #Tecla pra baixo até a ultima marca
         pa.click(788,y) #Vai seguir clicando em marcas da posição 2 em diante 
         y += 15.6 #Acrescenta 15 px para Y, assim irá selecionar a caixa de seleção da marca abaixo  
@@ -65,7 +65,7 @@ for i in range(0,62):
             pa.press('ENTER')
             sleep(1)
             primeiro = 1
-            tab(6)
+            tab(7)
             sleep(1)
         pa.write(f'{encontrar_marca(i)} {empresa}')
         pa.press('ENTER')
