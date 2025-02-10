@@ -49,30 +49,32 @@ for i in range(0,62):
 
     while not tela_aguarde(aguarde): #Espera o pdf carregar
         sleep(0.1)
-
+    
+    sleep(1)
     if verificar_marca_vazia(telaVazia,i) == True: #Checa se pdf/marca tem produto
         pa.hotkey('alt','f4') #Se sim: fecha a pagina
     else: #Se não: salva o pdf
         sleep(1)
         pa.click(1085,95)
         pa.press('ENTER')
-        sleep(0.7)
+        sleep(1)
         if primeiro == 0: 
             sleep(1)
-            pa.click(160,80)
-            pa.write(caminhoPasta)
-            sleep(1)
+            tab(7)
             pa.press('ENTER')
-            sleep(1)
+            pa.write(caminhoPasta)
+            sleep(1.2)
+            pa.press('ENTER')
+            sleep(1.2)
             primeiro = 1
             tab(7)
-            sleep(1)
+            sleep(1.2)
         pa.write(f'{encontrar_marca(i)} {empresa}')
         pa.press('ENTER')
-        sleep(1.2)
+        sleep(1.3)
         pa.press('right')
         pa.press('ENTER')
-        sleep(1.2)
+        sleep(1.5)
         pa.hotkey('alt','f4')
     sleep(1)
 
