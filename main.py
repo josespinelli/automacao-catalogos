@@ -1,11 +1,17 @@
 import pyautogui as pa
-
 from module import *
 from time import sleep
 pa.PAUSE = 0.1
 
-telaVazia = './img/pag1-1.png'
-aguarde = './img/aguarde.png'
+telaVazia = os.path.abspath('./img/pag1-1.png')
+aguarde = os.path.abspath('./img/aguarde.png')
+btn_visualizar = os.path.abspath('./img/visualizar.png')
+btn_confirmar = os.path.abspath('./img/visualizar.png')
+box_select = os.path.abspath('./img/select.png')
+gerar_pdfII = os.path.abspath('./img/gerar_pdf (2).png')
+gerar_pdfIII = os.path.abspath('./img/gerar_pdf (3).png')
+listar_marca = os.path.abspath('./img/listar_marca.png')
+
 down = 8
 y = 390
 empresa = ''
@@ -24,27 +30,38 @@ while True:
 
 if indice == 2:
     empresa == 'R CRUZ'
+    gerar_pdf = gerar_pdfII
 else:
     empresa == 'MATRIZ'
+    gerar_pdf = gerar_pdfIII
 
 caminhoPasta = criar_pasta(empresa)
 
 sleep(3)
 
+dropdown_marca = list(pa.locateAllOnScreen(listar_marca))
+
+for value in dropdown_marca:
+    left = value.left + 20
+    top = value.top + 20
+
 for i in range(0,62):
-    pa.click(800,353) #Lista marcas
+    pa.click(left,top) #Lista marcas
+    #pa.click(800,353) #Lista marcas
     if i < 56:
         for j in range(1,down):
             pa.press('down') #Tecla pra baixo até a proxima marca
-        pa.click(788,375) #Marca na posição 1 da lista suspensa
+        boxes_selects = list(pa.locateAllOnScreen(box_select))
+        pa.click(boxes_selects[0])
         down += 1 #Soma 1 para a quantidade de cliques até a proxima marca
     else:
         for j in range(1,63):
             pa.press('down') #Tecla pra baixo até a ultima marca
         pa.click(788,y) #Vai seguir clicando em marcas da posição 2 em diante 
         y += 15.6 #Acrescenta 15 px para Y, assim irá selecionar a caixa de seleção da marca abaixo  
-    pa.click(827,500) #Confirmar
-    pa.click(1090,60) #Vizualizar
+    pa.click(pa.locateOnScreen(btn_confirmar)) #Confirmar
+    pa.click(pa.locateOnScreen(btn_visualizar)) #Vizualizar
+    pa.moveTo(1085,25)
     sleep(1)
 
     while not tela_aguarde(aguarde): #Espera o pdf carregar
@@ -55,7 +72,7 @@ for i in range(0,62):
         pa.hotkey('alt','f4') #Se sim: fecha a pagina
     else: #Se não: salva o pdf
         sleep(1)
-        pa.click(1085,95)
+        pa.click(pa.locateOnScreen(gerar_pdf)) #Gerar o pdf 
         pa.press('ENTER')
         sleep(1)
         if primeiro == 0: 
