@@ -11,11 +11,13 @@ box_select = os.path.abspath('./img/select.png')
 gerar_pdfII = os.path.abspath('./img/gerar_pdf (2).png')
 gerar_pdfIII = os.path.abspath('./img/gerar_pdf (3).png')
 listar_marca = os.path.abspath('./img/listar_marca.png')
+zaxy = os.path.abspath('./img/zaxy.png')
+exibir_todos = os.path.abspath('./img/exibir_todos.png')
 
 down = 8
-y = 390
 empresa = ''
-primeiro = 0
+primeiro = True
+box = 1
 
 while True:
     indice = int(input('[2] R Cruz\n[3] Matriz\nDigite qual o indice da empresa: '))
@@ -45,9 +47,8 @@ for value in dropdown_marca:
     left = value.left + 20
     top = value.top + 20
 
-for i in range(0,62):
+for i in range(0,63):
     pa.click(left,top) #Lista marcas
-    #pa.click(800,353) #Lista marcas
     if i < 56:
         for j in range(1,down):
             pa.press('down') #Tecla pra baixo até a proxima marca
@@ -57,12 +58,15 @@ for i in range(0,62):
     else:
         for j in range(1,63):
             pa.press('down') #Tecla pra baixo até a ultima marca
-        pa.click(788,y) #Vai seguir clicando em marcas da posição 2 em diante 
-        y += 15.6 #Acrescenta 15 px para Y, assim irá selecionar a caixa de seleção da marca abaixo  
+        if i == 63: 
+            pa.click(pa.locateOnScreen(zaxy))
+        else: 
+            boxes_selects = list(pa.locateAllOnScreen(box_select))
+            pa.click(boxes_selects[box])
+            box += 1  
     pa.click(pa.locateOnScreen(btn_confirmar)) #Confirmar
     pa.click(pa.locateOnScreen(btn_visualizar)) #Vizualizar
-    pa.moveTo(1085,25)
-    sleep(1)
+    pa.moveTo(820,40)
 
     while not tela_aguarde(aguarde): #Espera o pdf carregar
         sleep(0.1)
@@ -75,7 +79,7 @@ for i in range(0,62):
         pa.click(pa.locateOnScreen(gerar_pdf)) #Gerar o pdf 
         pa.press('ENTER')
         sleep(1)
-        if primeiro == 0: 
+        if primeiro == True: 
             sleep(1)
             tab(7)
             pa.press('ENTER')
@@ -83,7 +87,6 @@ for i in range(0,62):
             sleep(1.2)
             pa.press('ENTER')
             sleep(1.2)
-            primeiro = 1
             tab(7)
             sleep(1.2)
         pa.write(f'{encontrar_marca(i)} {empresa}')
@@ -95,7 +98,15 @@ for i in range(0,62):
         pa.hotkey('alt','f4')
     sleep(1)
 
-    pa.click(800,353) #Abre lista de marcas
-    pa.click(788,375) #Marca a opção exibir todas
-    pa.click(788,375) #Desmarca a opção exibir todas
-    pa.click(827,500) #Clica no botão confirmar
+    pa.click(left,top) #Abre lista de marcas
+    pa.moveTo(820,40)
+    if primeiro == True:
+        for value in list(pa.locateAllOnScreen(exibir_todos)):
+            left_exibir_todos = value.left + 5
+            top_exibir_todos = value.top + 5
+        primeiro = False
+    
+    pa.click(left_exibir_todos, top_exibir_todos)  
+    pa.click(left_exibir_todos, top_exibir_todos) 
+    pa.click(pa.locateOnScreen(btn_confirmar))
+    #pa.click(827,500) #Clica no botão confirmar
