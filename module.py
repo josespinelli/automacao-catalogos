@@ -4,7 +4,7 @@ from datetime import datetime
 from time import sleep
 
 def tab(i):
-    for i in range(1,i+1):
+    for _ in range(i):
         pa.press('tab')
         sleep(0.1)
 
@@ -110,3 +110,17 @@ def criar_pasta(empresa):
     else:
         print(f"A pasta '{nomePasta}' já existe em '{caminhoDownloads}'.")
     return caminhoCompleto
+
+def selecionar_empresa():
+    while True:
+        indice = int(input('[2] R Cruz\n[3] Matriz\nDigite qual o índice da empresa: '))
+        if indice == 2:
+            return 'R CRUZ'
+        elif indice == 3:
+            return 'MATRIZ'
+        else:
+            print('Opção inválida. Tente novamente.\n')
+
+def locateAllOnScreen(img, Ldist=5, Tdist=5):
+    list_img = list(pa.locateAllOnScreen(img))
+    return list_img[0].left + Ldist, list_img[0].top + Tdist

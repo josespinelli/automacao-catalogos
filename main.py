@@ -8,8 +8,7 @@ aguarde = os.path.abspath('./img/aguarde.png')
 btn_visualizar = os.path.abspath('./img/visualizar.png')
 btn_confirmar = os.path.abspath('./img/visualizar.png')
 box_select = os.path.abspath('./img/select.png')
-gerar_pdfII = os.path.abspath('./img/gerar_pdf (2).png')
-gerar_pdfIII = os.path.abspath('./img/gerar_pdf (3).png')
+gerar_pdf = os.path.abspath('./img/gerar_pdf.png')
 listar_marca = os.path.abspath('./img/listar_marca.png')
 zaxy = os.path.abspath('./img/zaxy.png')
 exibir_todos = os.path.abspath('./img/exibir_todos.png')
@@ -19,52 +18,35 @@ empresa = ''
 primeiro = True
 box = 1
 
-while True:
-    indice = int(input('[2] R Cruz\n[3] Matriz\nDigite qual o indice da empresa: '))
-    if indice == 2:
-        empresa = 'R CRUZ'
-        break 
-    elif indice == 3:
-        empresa = 'MATRIZ'
-        break
-    else:
-        print('Opção inválida. Tente novamente.\n')
-
-if indice == 2:
-    empresa == 'R CRUZ'
-    gerar_pdf = gerar_pdfII
-else:
-    empresa == 'MATRIZ'
-    gerar_pdf = gerar_pdfIII
-
+empresa = selecionar_empresa()
 caminhoPasta = criar_pasta(empresa)
 
 sleep(3)
 
-dropdown_marca = list(pa.locateAllOnScreen(listar_marca))
+left_marca, top_marca = locateAllOnScreen(listar_marca, 40, 20)
 
-for value in dropdown_marca:
-    left = value.left + 20
-    top = value.top + 20
+for i in range(62):
+    pa.click(left_marca,top_marca) #Lista marcas
+    if primeiro:
+        left_ExTds, top_ExTds = locateAllOnScreen(exibir_todos)
+        left_Confirm, top_Confirm = locateAllOnScreen(btn_confirmar)
 
-for i in range(0,63):
-    pa.click(left,top) #Lista marcas
     if i < 56:
-        for j in range(1,down):
+        for _ in range(1,down):
             pa.press('down') #Tecla pra baixo até a proxima marca
         boxes_selects = list(pa.locateAllOnScreen(box_select))
         pa.click(boxes_selects[0])
         down += 1 #Soma 1 para a quantidade de cliques até a proxima marca
     else:
-        for j in range(1,63):
+        for _ in range(62):
             pa.press('down') #Tecla pra baixo até a ultima marca
-        if i == 63: 
+        if i == 61: 
             pa.click(pa.locateOnScreen(zaxy))
         else: 
             boxes_selects = list(pa.locateAllOnScreen(box_select))
             pa.click(boxes_selects[box])
             box += 1  
-    pa.click(pa.locateOnScreen(btn_confirmar)) #Confirmar
+    pa.click(left_Confirm, top_Confirm) #Confirmar
     pa.click(pa.locateOnScreen(btn_visualizar)) #Vizualizar
     pa.moveTo(820,40)
 
@@ -79,7 +61,7 @@ for i in range(0,63):
         pa.click(pa.locateOnScreen(gerar_pdf)) #Gerar o pdf 
         pa.press('ENTER')
         sleep(1)
-        if primeiro == True: 
+        if primeiro: 
             sleep(1)
             tab(7)
             pa.press('ENTER')
@@ -89,24 +71,19 @@ for i in range(0,63):
             sleep(1.2)
             tab(7)
             sleep(1.2)
+            primeiro = False
         pa.write(f'{encontrar_marca(i)} {empresa}')
         pa.press('ENTER')
         sleep(1.3)
-        pa.press('right')
+        pa.press('RIGHT')
         pa.press('ENTER')
         sleep(1.5)
         pa.hotkey('alt','f4')
     sleep(1)
 
-    pa.click(left,top) #Abre lista de marcas
+    pa.click(left_marca,top_marca) #Abre lista de marcas
     pa.moveTo(820,40)
-    if primeiro == True:
-        for value in list(pa.locateAllOnScreen(exibir_todos)):
-            left_exibir_todos = value.left + 5
-            top_exibir_todos = value.top + 5
-        primeiro = False
     
-    pa.click(left_exibir_todos, top_exibir_todos)  
-    pa.click(left_exibir_todos, top_exibir_todos) 
-    pa.click(pa.locateOnScreen(btn_confirmar))
-    #pa.click(827,500) #Clica no botão confirmar
+    pa.click(left_ExTds, top_ExTds)  
+    pa.click(left_ExTds, top_ExTds)  
+    pa.click(left_Confirm, top_Confirm) 
