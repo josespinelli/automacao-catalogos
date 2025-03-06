@@ -3,15 +3,17 @@ from module import *
 from time import sleep
 pa.PAUSE = 0.1
 
-telaVazia = os.path.abspath('./img/pag1-1.png')
-aguarde = os.path.abspath('./img/aguarde.png')
-btn_visualizar = os.path.abspath('./img/visualizar.png')
-btn_confirmar = os.path.abspath('./img/visualizar.png')
-box_select = os.path.abspath('./img/select.png')
-gerar_pdf = os.path.abspath('./img/gerar_pdf.png')
-listar_marca = os.path.abspath('./img/listar_marca.png')
-zaxy = os.path.abspath('./img/zaxy.png')
-exibir_todos = os.path.abspath('./img/exibir_todos.png')
+caminho_img = os.path.join(os.path.dirname(__file__), 'img')
+
+telaVazia = os.path.join(caminho_img, 'pag1-1.png')
+aguarde = os.path.join(caminho_img, 'aguarde.png')
+btn_visualizar = os.path.join(caminho_img,'visualizar.png')
+btn_confirmar = os.path.join(caminho_img,'visualizar.png')
+box_select = os.path.join(caminho_img, 'select.png')
+gerar_pdf = os.path.join(caminho_img, 'gerar_pdf.png')
+listar_marca = os.path.join(caminho_img, 'listar_marca.png')
+zaxy = os.path.join(caminho_img, 'zaxy.png')
+exibir_todos = os.path.join(caminho_img, 'exibir_todos.png')
 
 down = 8
 empresa = ''
