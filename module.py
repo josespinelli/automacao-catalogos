@@ -3,6 +3,20 @@ import os
 from datetime import datetime
 from time import sleep
 
+def caminho_pasta():
+    if not os.path.exists('path_img.txt'):
+        with open('path_img.txt', 'w'):
+            pass
+    with open ('path_img.txt','r') as a:
+        conteudo = a.read().strip()
+        if conteudo == '':
+            path = str(input('Cole o caminho da pasta IMG: ')).replace('"','')
+            with open ('path_img.txt','w') as a:
+                a.write(path)
+            return path
+        else:
+            return conteudo
+
 def tab(i):
     for _ in range(i):
         pa.press('tab')
