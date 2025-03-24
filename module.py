@@ -4,18 +4,19 @@ from datetime import datetime
 from time import sleep
 
 def caminho_pasta():
-    if not os.path.exists('path_img.txt'):
-        with open('path_img.txt', 'w'):
+    if not os.path.exists('database.txt'):
+        with open('database.txt', 'w'):
             pass
-    with open ('path_img.txt','r') as a:
-        conteudo = a.read().strip()
-        if conteudo == '':
+    with open ('database.txt','r') as a:
+        linhas = a.readlines()
+        ultima_linha = linhas[-1] 
+        if '\\img' not in ultima_linha:
             path = str(input('Cole o caminho da pasta IMG: ')).replace('"','')
-            with open ('path_img.txt','w') as a:
+            with open ('database.txt','a') as a:
                 a.write(path)
             return path
         else:
-            return conteudo
+            return ultima_linha
 
 def tab(i):
     for _ in range(i):
@@ -42,71 +43,10 @@ def tela_aguarde(img):
         return True
     
 def encontrar_marca(id_marca):
-    marcas = [
-        "activitta", 
-        "azaleia", 
-        "beira rio", 
-        "bertelli", 
-        "bkarellus", 
-        "cartago", 
-        "charmosinha", 
-        "coca cola", 
-        "dplaka", 
-        "di valentini", 
-        "dijean", 
-        "duramax", 
-        "everlast", 
-        "evva", 
-        "floral", 
-        "gibizinho", 
-        "giovanna dias",
-        "grendene kids", 
-        "grendha", 
-        "havaianas", 
-        "improviso", 
-        "ipanema", 
-        "kenner", 
-        "kleenex", 
-        "kta lixo", 
-        "la vie", 
-        "mariota", 
-        "maxx baby", 
-        "mimmo", 
-        "minimercado", 
-        "mizuno", 
-        "modare", 
-        "moleca", 
-        "molekinha", 
-        "molekinho", 
-        "mormaii", 
-        "nc", 
-        "neve", 
-        "nino", 
-        "olympikus", 
-        "oxn", 
-        "pega forte", 
-        "penalty", 
-        "rainha", 
-        "rayon", 
-        "replay", 
-        "rider", 
-        "scala", 
-        "scott", 
-        "softli",
-        "sound", 
-        "copos", 
-        "descartaveis", 
-        "umbro", 
-        "under armour",
-        "velluti", 
-        "vellutinho", 
-        "via marte", 
-        "via scarpa", 
-        "vizzano", 
-        "yvate", 
-        "zaxy"
-    ]
-    return marcas[id_marca].title()
+    with open ('database.txt','r') as a:
+        linhas = a.readlines() 
+        linhas.pop()
+    return linhas[id_marca].title().strip()
 
 def criar_pasta(empresa):
     nomePasta = f'Catalogos {empresa} {datetime.now().strftime("%d-%m-%Y")}'
@@ -138,3 +78,10 @@ def selecionar_empresa():
 def locateAllOnScreen(img, Ldist=5, Tdist=5):
     list_img = list(pa.locateAllOnScreen(img))
     return list_img[0].left + Ldist, list_img[0].top + Tdist
+
+def left_top_box(img, Ibox, acresT = 0):
+    boxes_selects = list(pa.locateAllOnScreen(img))
+    box = str(boxes_selects[Ibox]).split()
+    left = int(''.join(filter(str.isdigit, box[0])))
+    top = int(''.join(filter(str.isdigit, box[1]))) + acresT
+    return left, top

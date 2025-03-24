@@ -4,64 +4,67 @@ from time import sleep
 pa.PAUSE = 0.1
 
 caminho_img = caminho_pasta()
+with open('database.txt', 'r') as a:
+    lenMarcas = len(a.readlines()) - 1
 
 telaVazia = os.path.join(caminho_img, 'pag1-1.png')
-aguarde = os.path.join(caminho_img, 'aguarde.png')
 btn_visualizar = os.path.join(caminho_img,'visualizar.png')
-btn_confirmar = os.path.join(caminho_img,'visualizar.png')
 box_select = os.path.join(caminho_img, 'select.png')
 gerar_pdf = os.path.join(caminho_img, 'gerar_pdf.png')
 listar_marca = os.path.join(caminho_img, 'listar_marca.png')
-zaxy = os.path.join(caminho_img, 'zaxy.png')
-exibir_todos = os.path.join(caminho_img, 'exibir_todos.png')
 
 down = 8
 empresa = ''
 primeiro = True
 box = 1
+img = ''
 
 empresa = selecionar_empresa()
 caminhoPasta = criar_pasta(empresa)
 
+
 try:
     sleep(3)
-
+    img = 'listar_marca'
     left_marca, top_marca = locateAllOnScreen(listar_marca, 40, 20)
 
-    for i in range(62):
+    for i in range(lenMarcas):
         pa.click(left_marca,top_marca) #Lista marcas
-        sleep(0.3)
-        if primeiro:
-            left_ExTds, top_ExTds = locateAllOnScreen(exibir_todos)
-            left_Confirm, top_Confirm = locateAllOnScreen(btn_confirmar)
-
-        if i < 56:
+        sleep(0.2)
+        if i < (lenMarcas - 6):
             for _ in range(1,down):
                 pa.press('down') #Tecla pra baixo até a proxima marca
-            boxes_selects = list(pa.locateAllOnScreen(box_select))
-            pa.click(boxes_selects[0])
+            if primeiro:
+                img = 'select'
+                left_prime_box, top_prime_box = left_top_box(box_select,0)
+            pa.click(left_prime_box, top_prime_box)
             down += 1 #Soma 1 para a quantidade de cliques até a proxima marca
         else:
-            for _ in range(62):
+            for _ in range(lenMarcas):
                 pa.press('down') #Tecla pra baixo até a ultima marca
-            if i == 61: 
-                pa.click(pa.locateOnScreen(zaxy))
+            if i == (lenMarcas - 1): 
+                img = 'select'
+                left_zaxy, top_zaxy = left_top_box(box_select,5,17.5)
+                pa.click(left_zaxy, top_zaxy)
             else: 
+                img = 'select'
                 boxes_selects = list(pa.locateAllOnScreen(box_select))
                 pa.click(boxes_selects[box])
                 box += 1  
-        pa.click(left_Confirm, top_Confirm) #Confirmar
-        pa.click(pa.locateOnScreen(btn_visualizar)) #Vizualizar
+        img = 'visualizar'
+        pa.click(pa.locateOnScreen(btn_visualizar)) #Visualizar
         pa.moveTo(820,40)
 
-        while not tela_aguarde(aguarde): #Espera o pdf carregar
-            sleep(0.1)
+        while not tela_aguarde(gerar_pdf): #Espera o pdf carregar
+            sleep(0.2)
         
         sleep(1)
+        img = 'pag1-1'
         if verificar_marca_vazia(telaVazia,i) == True: #Checa se pdf/marca tem produto
             pa.hotkey('alt','f4') #Se sim: fecha a pagina
         else: #Se não: salva o pdf
             sleep(1)
+            img = 'gerar_pdf'
             pa.click(pa.locateOnScreen(gerar_pdf)) #Gerar o pdf 
             pa.press('ENTER')
             sleep(1)
@@ -78,7 +81,7 @@ try:
                 primeiro = False
             pa.write(f'{encontrar_marca(i)} {empresa}')
             pa.press('ENTER')
-            sleep(1.3)
+            sleep(1.5)
             pa.press('RIGHT')
             pa.press('ENTER')
             sleep(1.5)
@@ -88,9 +91,19 @@ try:
         pa.click(left_marca,top_marca) #Abre lista de marcas
         pa.moveTo(820,40)
         
-        pa.click(left_ExTds, top_ExTds)  
-        pa.click(left_ExTds, top_ExTds)  
-        pa.click(left_Confirm, top_Confirm)
+        pa.click(left_prime_box, top_prime_box)
+        pa.click(left_prime_box, top_prime_box)  
+        pa.click((left_marca-100), top_marca)
+
+except FileNotFoundError:
+    pa.hotkey('ALT','TAB')
+    print('\n\033[31mERRO AO EXECUTAR SCRIPT, TENTE NOVAMENTE\033[m')
+    print('-'*80)
+    print(f'Erro: imagem "{img}.png" não encontrada')
+    print('-'*80)
+    print('Se o problema continuar, mande mensagem pro José Spinelli (91)988803703 (:')
+    input('Pressione "ENTER" para fechar o prompt')
+    sleep(1)
 
 except Exception as e:
     if str(e) == '':
@@ -98,11 +111,15 @@ except Exception as e:
     pa.hotkey('ALT','TAB')
     print('\n\033[31mERRO AO EXECUTAR SCRIPT, TENTE NOVAMENTE\033[m')
     print('-'*80)
-    print(f'Erro: {e}')
+    if str(e) == 'Could not locate the image.':
+        print(f'Erro: imagem "{img}.png" não encontrada')
+    else:
+        print(f'Erro: {e}')
     print('-'*80)
     print('Se o problema continuar, mande mensagem pro José Spinelli (91)988803703 (:')
     input('Pressione "ENTER" para fechar o prompt')
     sleep(1)
+
 else:
     pa.hotkey('ALT','TAB')
     print('\n\033[32mSCRIPT EXECUTADO COM SUCESSO\033[m')
