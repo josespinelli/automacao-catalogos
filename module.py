@@ -28,10 +28,10 @@ def verificar_marca_vazia(img,id_marca):
     try:
         pa.locateOnScreen(img)
     except:
-        print(f'{id_marca+1}. {nome}: \033[32mSALVA\033[m')
+        print(f'{id_marca+1}. {nome.replace(" *","")}: \033[32mSALVA\033[m')
         return False
     else:  
-        print(f'{id_marca+1}. {nome}: \033[31mVAZIA\033[m')
+        print(f'{id_marca+1}. {nome.replace(" *","")}: \033[31mVAZIA\033[m')
         return True
 
 def tela_aguarde(img):
@@ -67,11 +67,13 @@ def criar_pasta(empresa):
 
 def selecionar_empresa():
     while True:
-        indice = int(input('[2] R Cruz\n[3] Matriz\nDigite qual o índice da empresa: '))
+        indice = int(input('[1] Thales\n[2] R Cruz\n[3] Matriz\nDigite qual o índice da empresa: '))
         if indice == 2:
             return 'R CRUZ'
         elif indice == 3:
             return 'MATRIZ'
+        elif indice == 1:
+            return 'THALES'
         else:
             print('Opção inválida. Tente novamente.\n')
 
@@ -85,3 +87,9 @@ def left_top_box(img, Ibox, acresT = 0):
     left = int(''.join(filter(str.isdigit, box[0])))
     top = int(''.join(filter(str.isdigit, box[1]))) + acresT
     return left, top
+
+def off_havaiana_mercado(i):
+    nome = encontrar_marca(i)
+    if '*' in encontrar_marca(i):
+        print(f'{i+1}. {nome}: \033[33mPULADO\033[m')
+        return True

@@ -9,25 +9,25 @@ coca cola
 dplaka
 di valentini
 dijean
-duramax
+duramax *
 everlast
 evva
-floral
+floral *
 gibizinho 
 giovanna dias
 grendene kids
 grendha
-havaianas
+havaianas *
 improviso
 ipanema
-kenner
-kleenex
-kta lixo
-la vie
-mariota
-maxx baby 
-mimmo 
-minimercado
+kenner 
+kleenex *
+kta lixo *
+la vie *
+mariota 
+maxx baby * 
+mimmo *
+minimercado *
 mizuno
 modare
 moleca
@@ -35,8 +35,8 @@ molekinha
 molekinho
 mormaii
 nc
-neve
-nino
+neve *
+nino *
 olympikus
 oxn
 pega forte 
@@ -45,12 +45,12 @@ rainha
 rayon
 replay
 rider
-scala
+scala * 
 scott
 softli
 sound
-copos
-descartaveis 
+copos *
+descartaveis *
 umbro 
 under armour
 velluti 
@@ -60,3 +60,4 @@ via scarpa
 vizzano
 yvate
 zaxy
+C:\Users\Paulo\Documents\Script\Catalogos\img

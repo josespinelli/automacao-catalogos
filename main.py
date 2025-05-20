@@ -18,6 +18,7 @@ empresa = ''
 primeiro = True
 box = 1
 img = ''
+top = 0
 
 empresa = selecionar_empresa()
 caminhoPasta = criar_pasta(empresa)
@@ -29,9 +30,15 @@ try:
     left_marca, top_marca = locateAllOnScreen(listar_marca, 40, 20)
 
     for i in range(lenMarcas):
+        nome_marca = encontrar_marca(i)
+        if empresa == 'THALES':
+            if '*' in nome_marca:
+                print(f'{i+1}. {nome_marca}: \033[33mPULADO\033[m')
+                down += 1
+                continue
         pa.click(left_marca,top_marca) #Lista marcas
         sleep(0.2)
-        if i < (lenMarcas - 6):
+        if i < (lenMarcas - 8):
             for _ in range(1,down):
                 pa.press('down') #Tecla pra baixo até a proxima marca
             if primeiro:
@@ -42,15 +49,18 @@ try:
         else:
             for _ in range(lenMarcas):
                 pa.press('down') #Tecla pra baixo até a ultima marca
-            if i == (lenMarcas - 1): 
-                img = 'select'
-                left_zaxy, top_zaxy = left_top_box(box_select,5,17.5)
-                pa.click(left_zaxy, top_zaxy)
-            else: 
-                img = 'select'
-                boxes_selects = list(pa.locateAllOnScreen(box_select))
-                pa.click(boxes_selects[box])
-                box += 1  
+            img = 'select'
+            pa.click(left_prime_box, (top_prime_box + top))
+            top += 15.5
+            
+            # if i == (lenMarcas - 1): 
+            #     img = 'select'
+            #     left_zaxy, top_zaxy = left_top_box(box_select,5,17.5)
+            #     pa.click(left_zaxy, top_zaxy)
+            # else: 
+            #     boxes_selects = list(pa.locateAllOnScreen(box_select))
+            #     pa.click(boxes_selects[box])
+            #     box += 1  
         img = 'visualizar'
         pa.click(pa.locateOnScreen(btn_visualizar)) #Visualizar
         pa.moveTo(820,40)
@@ -79,9 +89,9 @@ try:
                 tab(7)
                 sleep(1.2)
                 primeiro = False
-            pa.write(f'{encontrar_marca(i)} {empresa}')
+            pa.write(f'{nome_marca.replace(" *","")} {empresa}')
             pa.press('ENTER')
-            sleep(1.5)
+            sleep(2.5)
             pa.press('RIGHT')
             pa.press('ENTER')
             sleep(1.5)
