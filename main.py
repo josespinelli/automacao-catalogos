@@ -23,7 +23,6 @@ top = 0
 empresa = selecionar_empresa()
 caminhoPasta = criar_pasta(empresa)
 
-
 try:
     sleep(3)
     img = 'listar_marca'
